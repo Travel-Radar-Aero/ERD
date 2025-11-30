@@ -1,7 +1,3 @@
--- ===========================
--- 1. BASIC LOOKUP TABLES
--- ===========================
-
 CREATE TABLE AirlineType (
   TypeID INT PRIMARY KEY,
   TypeName VARCHAR(255)
@@ -16,10 +12,6 @@ CREATE TABLE AircraftStatus (
   StatusID INT PRIMARY KEY,
   StatusName VARCHAR(255)
 );
-
--- ===========================
--- 2. AIRPORT & RUNWAY
--- ===========================
 
 CREATE TABLE Airport (
   AirportID INT PRIMARY KEY,
@@ -37,14 +29,10 @@ CREATE TABLE Runway (
   RunwayID INT PRIMARY KEY,
   AirportID INT,
   Length INT,
-  Surface VARCHAR(100),
-  Orientation VARCHAR(50),
+  Surface VARCHAR(255),
+  Orientation VARCHAR(255),
   FOREIGN KEY (AirportID) REFERENCES Airport(AirportID)
 );
-
--- ===========================
--- 3. AIRLINE & RELATED
--- ===========================
 
 CREATE TABLE Airline (
   AirlineID INT PRIMARY KEY,
@@ -55,7 +43,7 @@ CREATE TABLE Airline (
   StatusID INT,
   RegionID INT,
   HomebaseAirportID INT,
-  StockSymbol VARCHAR(50),
+  StockSymbol VARCHAR(255),
   LaunchDate DATE,
   ClosureDate DATE,
   FOREIGN KEY (TypeID) REFERENCES AirlineType(TypeID),
@@ -95,10 +83,6 @@ CREATE TABLE AirlineFinancials (
   ProfitLoss DECIMAL(18,2),
   FOREIGN KEY (AirlineID) REFERENCES Airline(AirlineID)
 );
-
--- ===========================
--- 4. AIRCRAFT & RELATED
--- ===========================
 
 CREATE TABLE Aircraft (
   AircraftID INT PRIMARY KEY,
@@ -140,13 +124,9 @@ CREATE TABLE AircraftOrders (
   AircraftModel VARCHAR(255),
   OrderDate DATE,
   DeliveryDate DATE,
-  Status VARCHAR(100),
+  Status VARCHAR(255),
   FOREIGN KEY (AirlineID) REFERENCES Airline(AirlineID)
 );
-
--- ===========================
--- 5. CONTACTS & MOVEMENTS
--- ===========================
 
 CREATE TABLE Contact (
   ContactID INT PRIMARY KEY,
@@ -175,16 +155,12 @@ CREATE TABLE ExecutiveMovement (
   FOREIGN KEY (ContactID) REFERENCES Contact(ContactID)
 );
 
--- ===========================
--- 6. ROUTES & FLIGHTS
--- ===========================
-
 CREATE TABLE Route (
   RouteID INT PRIMARY KEY,
   OriginAirportID INT,
   DestinationAirportID INT,
   Distance INT,
-  Type VARCHAR(100),
+  Type VARCHAR(255),
   FOREIGN KEY (OriginAirportID) REFERENCES Airport(AirportID),
   FOREIGN KEY (DestinationAirportID) REFERENCES Airport(AirportID)
 );
@@ -210,8 +186,8 @@ CREATE TABLE FlightSchedule (
   AirlineID INT,
   DepartureTime TIME,
   ArrivalTime TIME,
-  Frequency VARCHAR(100),
-  Terminal VARCHAR(100),
+  Frequency VARCHAR(255),
+  Terminal VARCHAR(255),
   FOREIGN KEY (RouteID) REFERENCES Route(RouteID),
   FOREIGN KEY (AirlineID) REFERENCES Airline(AirlineID)
 );
@@ -220,7 +196,7 @@ CREATE TABLE FlightCapacity (
   ScheduleID INT,
   AircraftID INT,
   SeatCapacity INT,
-  SeatDensity VARCHAR(100),
+  SeatDensity VARCHAR(255),
   FOREIGN KEY (ScheduleID) REFERENCES FlightSchedule(ScheduleID),
   FOREIGN KEY (AircraftID) REFERENCES Aircraft(AircraftID)
 );
